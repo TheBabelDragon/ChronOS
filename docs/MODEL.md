@@ -25,7 +25,8 @@ State identity is a SHA-256 over a canonical serialization of:
 - provenance
 
 Canonicalization supports dict, list, tuple, str, int, float, bool, null
-and nested structures. Unsupported objects require an explicit serializer.
+and nested structures. Unsupported objects raise `TypeError` rather than
+producing unstable identities.
 
 ## Event identity
 
@@ -39,4 +40,21 @@ parent_state ──event──► new_state
 ```
 
 The parent remains unchanged. The new state records `parent_state` and
-`logical_time`.
+`logical_time`. The event records `input_state_id`, `result_state_id`,
+payload, and explicit `causal_parents`.
+
+## Timeline API (Phase 1)
+
+```python
+Timeline.create_root(...)
+timeline.head()
+timeline.get_state(state_id)
+timeline.transition(new_state_root, ...)
+timeline.events()
+timeline.states()
+timeline.fork(...)
+timeline.snapshot(...)
+timeline.replay(...)
+timeline.trace(...)
+timeline.integrity()
+```

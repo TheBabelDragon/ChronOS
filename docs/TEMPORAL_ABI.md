@@ -6,12 +6,14 @@ This is a **semantic** ABI first. No binary layout is defined yet.
 The purpose is to keep future native/kernel implementations aligned
 with ChronOS's conceptual model.
 
+Executable identifiers live in `chronos.abi.TemporalOp`.
+
 ## Operations
 
 | Operation | Meaning |
 |-----------|---------|
 | `BEGIN` | Open a temporal transaction / observation window |
-| `OBSERVE` | Read current domain state without committing a transition |
+| `OBSERVE` | Read current domain state without committing a domain mutation |
 | `TRANSITION` | Apply a domain operation; produce a new temporal state |
 | `COMMIT` | Finalize a pending transition into the timeline |
 | `SNAPSHOT` | Create an explicit checkpoint of a committed state |
@@ -25,12 +27,13 @@ with ChronOS's conceptual model.
 
 | Kernel surface | ChronOS |
 |----------------|---------|
-| `SELF.GET` | `OBSERVE` |
-| `SELF.SET` | `TRANSITION` |
-| `SELF.RUN` | `TRANSITION` (execution event) |
-| `SELF.QUERY` | `OBSERVE` / query event |
+| `SELF.GET` / `GET` | `OBSERVE` |
+| `SELF.SET` / `SET` | `TRANSITION` |
+| `SELF.RUN` / `RUN` | `TRANSITION` (execution event) |
+| `SELF.QUERY` / `QUERY` | `OBSERVE` / query event |
 | `TRACE` | `TRACE` |
 | `INTEGRITY` | `INTEGRITY` |
+| `SNAPSHOT` | `SNAPSHOT` |
 
 ## Invariants
 
